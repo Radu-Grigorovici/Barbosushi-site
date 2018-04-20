@@ -223,8 +223,10 @@ if (isset($_POST['submit'])) {
   <div class="container">
 
     <h1 class="">Contact </h1>
+    <?php if ($_POST && $suspect) : ?>
+    <p class="warning">Ne pare rau, email-ul dumneavoastra nu a putut fi trimis</p>
     <?php
-    if ($errors || $missing) :
+    elseif ($errors || $missing) :
     ?>
     <p class="warning"> Va rugam sa completati corespunzator campurile indicate</p>
   <?php endif; ?>
