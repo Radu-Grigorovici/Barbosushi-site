@@ -249,16 +249,26 @@ if (isset($_POST['submit'])) {
               <?php  endif; ?>
             </label>
             <select class="form-control" id="serviceType" name="serviceType">
-              <option>Selecteaza un pachet</option>
-              <option value="Pachet standard">Pachet standard</option>
-              <option value="Pachet extra">Pachet extra</option>
+              <option value="0">Nici un pachet selectat</option>
+              <option value="1" <?php if ($serviceType == 1) {
+                echo 'selected="selected"';
+              } ?>>Pachet standard</option>
+              <option value="2" <?php if ($serviceType == 2) {
+                echo 'selected="selected"';
+              } ?>>Pachet extra</option>
             </select>
             <label class="form-control-label" for="numarPersoane">Numar persoane
               <?php if ($missing && in_array('numberOfPeopleAttending', $missing)) : ?>
                 <span>Va rugam sa specificati numarul de persoane</span>
               <?php  endif; ?>
             </label>
-            <input class="form-control" type="text" name="numberOfPeopleAttending" id="numberOfPeopleAttending" value="" placeholder="Numarul de persoane">
+            <input class="form-control" type="text" name="numberOfPeopleAttending" id="numberOfPeopleAttending" placeholder="Numarul de persoane"
+            <?php
+            if ($errors || $missing) {
+              echo 'value="' . htmlentities($numberOfPeopleAttending) . '"' ;
+            }
+             ?>
+            >
           </div>
 
           <div class="form-group">
@@ -267,7 +277,11 @@ if (isset($_POST['submit'])) {
                 <span>Va rugam sa detaliati</span>
               <?php  endif; ?>
             </label>
-            <textarea class="form-control" name="eventDetail" id="eventDetail" rows="5" placeholder="Detalii despre eveniment: Numar persoane, servicii dorite, etc."></textarea>
+            <textarea class="form-control" name="eventDetail" id="eventDetail" rows="5" placeholder="Detalii despre eveniment: Numar persoane, servicii dorite, etc."><?php
+              if ($errors || $missing) {
+                echo htmlentities($eventDetail);
+              }
+              ?></textarea>
           </div>
 
           <div class="form-group">
@@ -276,13 +290,25 @@ if (isset($_POST['submit'])) {
                 <span>Va rugam sa specificati un numar de telefon</span>
               <?php  endif; ?>
             </label>
-            <input class="form-control" type="text" name="phoneNumber" value="" placeholder="Exemplu: 07xx xxx xxx">
+            <input class="form-control" type="text" name="phoneNumber" placeholder="Exemplu: 07xx xxx xxx"
+            <?php
+            if ($errors || $missing) {
+              echo 'value="' . htmlentities($phoneNumber) . '"' ;
+            }
+             ?>
+            >
             <label class="form-control-label" for="eventdetail">Nume
               <?php if ($missing && in_array('name', $missing)) : ?>
                 <span>Va rugam sa specificati o adresa de email</span>
               <?php  endif; ?>
             </label>
-            <input class="form-control" type="text" name="name" value="" placeholder="Exemplu: Popescu Marius">
+            <input class="form-control" type="text" name="name" placeholder="Exemplu: Popescu Marius"
+            <?php
+            if ($errors || $missing) {
+              echo 'value="' . htmlentities($name) . '"' ;
+            }
+             ?>
+            >
           </div>
 
           <div class="form-group">
