@@ -2,8 +2,16 @@
 $errors = [];
 $missing = [];
 if (isset($_POST['submit'])) {
-  $expected = ['serviceType', 'numberOfPeopleAttending', 'eventDetail', 'phoneNumber', 'name'];
-  $required = ['name', 'phoneNumber'];
+  $expected = ['serviceType', 'numberOfPeopleAttending', 'eventDetail', 'email', 'name'];
+  $required = ['name', 'email'];
+
+  $to = 'Radu <address@yahoo.com>';
+  $subject = 'Contact de la barbosushi.ro';
+  $headers = [];
+  $headers[] = 'From: webmaster@example.com';
+  $headers[] = 'Cc: address@gmail.com, address@yahoo.com';
+  $headers[] = 'Content-type: text/plain; charset=utf-8';
+  $authorized = null;
   require './includes/process_mail.php';
 }
  ?>
@@ -287,21 +295,23 @@ if (isset($_POST['submit'])) {
           </div>
 
           <div class="form-group">
-            <label class="form-control-label" for="eventdetail">Numar de telefon
-              <?php if ($missing && in_array('phoneNumber', $missing)) : ?>
-                <span>Va rugam sa specificati un numar de telefon</span>
+            <label class="form-control-label" for="eventdetail">Adresa email
+              <?php if ($missing && in_array('email', $missing)) : ?>
+                <span>Va rugam sa specificati o adresa de email</span>
+              <?php elseif (isset($errors['email'])) : ?>
+                <span class="warning">Invalid email address</span>
               <?php  endif; ?>
             </label>
-            <input class="form-control" type="text" name="phoneNumber" placeholder="Exemplu: 07xx xxx xxx"
+            <input class="form-control" type="text" name="email" placeholder="marius.popescu@exemplu.com"
             <?php
             if ($errors || $missing) {
-              echo 'value="' . htmlentities($phoneNumber) . '"' ;
+              echo 'value="' . htmlentities($email) . '"' ;
             }
              ?>
             >
             <label class="form-control-label" for="eventdetail">Nume
               <?php if ($missing && in_array('name', $missing)) : ?>
-                <span>Va rugam sa specificati o adresa de email</span>
+                <span>Va rugam sa completati un nume</span>
               <?php  endif; ?>
             </label>
             <input class="form-control" type="text" name="name" placeholder="Exemplu: Popescu Marius"

@@ -14,10 +14,13 @@ function isSuspect($value, $pattern, &$suspect) {
   }
 }
 
-
+//CHeck the $_POST array for suspect phrases
 isSuspect($_POST, $pattern, $suspect);
 
+//Process the form only if no suspect phrases are found
 if (!$suspect) :
+// Check that required fields have been filled in
+// and reassign expected elements to simple variables
 
 foreach ($_POST as $key => $value) {
   $value = is_array($value) ? $value : trim($value);
@@ -28,5 +31,20 @@ foreach ($_POST as $key => $value) {
     $$key = $value;
   }
 }
+// Validate user's email
+if (!$missing || !empty($email)) {
+  $validEmail = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
+  if ($validEmail) {
+    $headers[] = "Reply-to: $validEmail";
+  } else {
+    $errors['email'] = true;
+  }
+
+  // If no errors, create headers and message body
+  if (!$errors && !$missing) {
+    $headers = implode("\r\n", $headers);
+  }
+}
+
 endif;
  ?>
