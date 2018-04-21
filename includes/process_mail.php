@@ -68,7 +68,11 @@ if (!$missing || !empty($email)) {
     }
 
     $message = wordwrap($message, 70);
-    $mailSent = true;
+    $mailSent = mail($to, $subject, $message, $head, $authorized);
+    if (!$mailSent) {
+      $errors['mailFail'] = true;
+
+    }
   }
 }
 

@@ -13,6 +13,10 @@ if (isset($_POST['submit'])) {
   $headers[] = 'Content-type: text/plain; charset=utf-8';
   $authorized = null;
   require './includes/process_mail.php';
+  if ($mailSent) {
+    header('Location: thanks.php');
+    exit;
+  }
 }
  ?>
 <!DOCTYPE html>
@@ -231,7 +235,7 @@ if (isset($_POST['submit'])) {
   <div class="container">
 
     <h1 class="">Contact </h1>
-    <?php if ($_POST && $suspect) : ?>
+    <?php if ($_POST && ($suspect || isset($errors['mailFail']))) : ?>
     <p class="warning">Ne pare rau, email-ul dumneavoastra nu a putut fi trimis</p>
     <?php
     elseif ($errors || $missing) :
@@ -260,10 +264,10 @@ if (isset($_POST['submit'])) {
             </label>
             <select class="form-control" id="service_type" name="service_type">
               <option value="0">Nici un pachet selectat</option>
-              <option value="1" <?php if ($service_type == 1) {
+              <option value="1" <?php if (isset($service_type) && $service_type == 1) {
                 echo 'selected="selected"';
               } ?>>Pachet standard</option>
-              <option value="2" <?php if ($service_type == 2) {
+              <option value="2" <?php if (isset($service_type) && $service_type == 2) {
                 echo 'selected="selected"';
               } ?>>Pachet extra</option>
             </select>
@@ -328,16 +332,7 @@ if (isset($_POST['submit'])) {
           </div>
 
         </form>
-        <pre>
-          <?php
-          if($_POST && $mailSent){
-            echo "Message: \n\n";
-            echo htmlentities($message);
-            echo "Headers: \n\n";
-            echo htmlentities($headers);
-          }
-           ?>
-        </pre>
+
       </div>
 
     </div>
