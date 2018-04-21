@@ -2,7 +2,7 @@
 $errors = [];
 $missing = [];
 if (isset($_POST['submit'])) {
-  $expected = ['serviceType', 'numberOfPeopleAttending', 'eventDetail', 'email', 'name'];
+  $expected = ['service_type', 'number_of_people_attending', 'event_details', 'email', 'name'];
   $required = ['name', 'email'];
 
   $to = 'Radu <address@yahoo.com>';
@@ -253,49 +253,49 @@ if (isset($_POST['submit'])) {
           enctype="multipart/form-data"
           name="EmailForm">
           <div class="form-group">
-            <label class="form-control-label" for="serviceType">Descriere eveniment
-              <?php if ($missing && in_array('serviceType', $missing)) : ?>
+            <label class="form-control-label" for="service_type">Descriere eveniment
+              <?php if ($missing && in_array('service_type', $missing)) : ?>
                 <span>Va rugam sa selectati pachetul</span>
               <?php  endif; ?>
             </label>
-            <select class="form-control" id="serviceType" name="serviceType">
+            <select class="form-control" id="service_type" name="service_type">
               <option value="0">Nici un pachet selectat</option>
-              <option value="1" <?php if ($serviceType == 1) {
+              <option value="1" <?php if ($service_type == 1) {
                 echo 'selected="selected"';
               } ?>>Pachet standard</option>
-              <option value="2" <?php if ($serviceType == 2) {
+              <option value="2" <?php if ($service_type == 2) {
                 echo 'selected="selected"';
               } ?>>Pachet extra</option>
             </select>
             <label class="form-control-label" for="numarPersoane">Numar persoane
-              <?php if ($missing && in_array('numberOfPeopleAttending', $missing)) : ?>
+              <?php if ($missing && in_array('number_of_people_attending', $missing)) : ?>
                 <span>Va rugam sa specificati numarul de persoane</span>
               <?php  endif; ?>
             </label>
-            <input class="form-control" type="text" name="numberOfPeopleAttending" id="numberOfPeopleAttending" placeholder="Numarul de persoane"
+            <input class="form-control" type="text" name="number_of_people_attending" id="number_of_people_attending" placeholder="Numarul de persoane"
             <?php
             if ($errors || $missing) {
-              echo 'value="' . htmlentities($numberOfPeopleAttending) . '"' ;
+              echo 'value="' . htmlentities($number_of_people_attending) . '"' ;
             }
              ?>
             >
           </div>
 
           <div class="form-group">
-            <label class="form-control-label" for="eventDetail">Descriere eveniment
-              <?php if ($missing && in_array('eventDetail', $missing)) : ?>
+            <label class="form-control-label" for="event_details">Descriere eveniment
+              <?php if ($missing && in_array('event_details', $missing)) : ?>
                 <span>Va rugam sa detaliati</span>
               <?php  endif; ?>
             </label>
-            <textarea class="form-control" name="eventDetail" id="eventDetail" rows="5" placeholder="Detalii despre eveniment: Numar persoane, servicii dorite, etc."><?php
+            <textarea class="form-control" name="event_details" id="event_details" rows="5" placeholder="Detalii despre eveniment: Numar persoane, servicii dorite, etc."><?php
               if ($errors || $missing) {
-                echo htmlentities($eventDetail);
+                echo htmlentities($event_details);
               }
               ?></textarea>
           </div>
 
           <div class="form-group">
-            <label class="form-control-label" for="eventdetail">Adresa email
+            <label class="form-control-label" for="email">Adresa email
               <?php if ($missing && in_array('email', $missing)) : ?>
                 <span>Va rugam sa specificati o adresa de email</span>
               <?php elseif (isset($errors['email'])) : ?>
@@ -309,7 +309,7 @@ if (isset($_POST['submit'])) {
             }
              ?>
             >
-            <label class="form-control-label" for="eventdetail">Nume
+            <label class="form-control-label" for="name">Nume
               <?php if ($missing && in_array('name', $missing)) : ?>
                 <span>Va rugam sa completati un nume</span>
               <?php  endif; ?>
@@ -328,6 +328,16 @@ if (isset($_POST['submit'])) {
           </div>
 
         </form>
+        <pre>
+          <?php
+          if($_POST && $mailSent){
+            echo "Message: \n\n";
+            echo htmlentities($message);
+            echo "Headers: \n\n";
+            echo htmlentities($headers);
+          }
+           ?>
+        </pre>
       </div>
 
     </div>
