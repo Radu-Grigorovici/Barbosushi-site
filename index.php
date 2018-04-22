@@ -5,7 +5,7 @@ if (isset($_POST['submit'])) {
   $expected = ['service_type', 'number_of_people_attending', 'event_details', 'email', 'name'];
   $required = ['name', 'email'];
 
-  $to = 'Radu <address@yahoo.com>';
+  $to = 'Radu <raddu14@yahoo.com>';
   $subject = 'Contact de la barbosushi.ro';
   $headers = [];
   $headers[] = 'From: webmaster@example.com';
@@ -13,10 +13,10 @@ if (isset($_POST['submit'])) {
   $headers[] = 'Content-type: text/plain; charset=utf-8';
   $authorized = null;
   require './includes/process_mail.php';
-  if ($mailSent) {
-    header('Location: thanks.php');
-    exit;
-  }
+  // if ($mailSent) {
+  //   header('Location: mailSent.php');
+  //   exit;
+  // }
 }
  ?>
 <!DOCTYPE html>
@@ -263,12 +263,16 @@ if (isset($_POST['submit'])) {
               <?php  endif; ?>
             </label>
             <select class="form-control" id="service_type" name="service_type">
-              <option value="0">Nici un pachet selectat</option>
-              <option value="1" <?php if (isset($service_type) && $service_type == 1) {
-                echo 'selected="selected"';
+              <option value=""
+              <?php if (!$_POST || $service_type == ''){
+                echo 'selected';
+              }?>
+              >Nici un pachet selectat</option>
+              <option value="Pachet standard" <?php if ($_POST && $service_type == 'Pachet standard') {
+                echo 'selected';
               } ?>>Pachet standard</option>
-              <option value="2" <?php if (isset($service_type) && $service_type == 2) {
-                echo 'selected="selected"';
+              <option value="Pachet extra" <?php if ($_POST && $service_type == 'Pachet extra') {
+                echo 'selected';
               } ?>>Pachet extra</option>
             </select>
             <label class="form-control-label" for="numarPersoane">Numar persoane
@@ -332,7 +336,16 @@ if (isset($_POST['submit'])) {
           </div>
 
         </form>
-
+        <pre>
+          <?php
+         if($_POST && $mailSent){
+           echo "Message: \n\n";
+           echo htmlentities($message);
+            echo "Headers: \n\n";
+            echo htmlentities($headers);
+          }
+           ?>
+        </pre>
       </div>
 
     </div>
